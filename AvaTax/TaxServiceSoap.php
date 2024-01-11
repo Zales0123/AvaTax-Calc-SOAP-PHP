@@ -5,7 +5,7 @@
  */
 /**
  * Proxy interface for the Avalara Tax Web Service.  It contains methods that perform remote calls
- * to the Avalara Tax Service. 
+ * to the Avalara Tax Service.
  *
  * TaxServiceSoap reads its configuration values from static variables defined
  * in ATConfig.class.php. This file must be properly configured with your security credentials.
@@ -58,8 +58,8 @@ class TaxServiceSoap extends AvalaraSoapClient {
         'TaxOverride' => 'AvaTax\TaxOverride'
     );
 
-    public function __construct($configurationName = 'Default') {
-        $config = new ATConfig($configurationName);
+    public function __construct($configuration = 'Default') {
+        $config = (is_string($configuration)) ? new ATConfig($configuration) : $configuration;
 
         $this->client = new DynamicSoapClient(
                 $config->taxWSDL, array
@@ -95,7 +95,7 @@ class TaxServiceSoap extends AvalaraSoapClient {
      * Otherwise the request must specify all of {@link PostTaxRequest#getCompanyCode}, see {@link PostTaxRequest#getDocCode}
      * and {@link PostTaxRequest#getDocType} in order to uniquely identify the document.
      * </p>
-     *  
+     *
      * @param getTaxHistoryRequest a {@link GetTaxHistoryRequest} object indicating the document for which history should be retrieved.
      * @return a {@link GetTaxHistoryResult} object
      * @throws SoapFault
@@ -234,13 +234,13 @@ class TaxServiceSoap extends AvalaraSoapClient {
     /**
      * Checks authentication of and authorization to one or more
      * operations on the service.
-     * 
+     *
      * This operation allows pre-authorization checking of any
      * or all operations. It will return a comma delimited set of
      * operation names which will be all or a subset of the requested
      * operation names.  For security, it will never return operation
      * names other than those requested (no phishing allowed).
-     * 
+     *
      * <b>Example:</b><br>
      * <code> isAuthorized("GetTax,PostTax")</code>
      *
@@ -269,8 +269,8 @@ class TaxServiceSoap extends AvalaraSoapClient {
     }
 
     /**
-     * This method is used to apply a payment to a document for cash basis accounting. Applies a payment date to an existing invoice 
-     * It sets the document PaymentDate and changes the reporting date from the DocDate default. It may be called before or after a document is committed. It should not be used for accrual basis accounting       
+     * This method is used to apply a payment to a document for cash basis accounting. Applies a payment date to an existing invoice
+     * It sets the document PaymentDate and changes the reporting date from the DocDate default. It may be called before or after a document is committed. It should not be used for accrual basis accounting
      *
      * @param ApplyPaymentRequest $applyPaymentRequest
      * @return ApplyPaymentResult
